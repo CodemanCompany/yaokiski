@@ -4,7 +4,7 @@ var yaokiski = angular.module( 'yaokiski', [] )
 
 .config( function() {} )
 
-.factory( 'request', function( $http ) {
+.factory( 'request', function( $http, url ) {
 	var request = {};
 
 	request.data = null;
@@ -96,6 +96,19 @@ var yaokiski = angular.module( 'yaokiski', [] )
 	};
 
 	return request;
+} )
+
+// TODO: ver si va en este módulo
+.factory( 'url', function() {
+	var url = {};
+
+	url.controller = null;
+
+	// url.setController = function( data ) {
+	// 	this.controller = data;
+	// };
+
+	return url;
 } )
 
 .factory( 'validation', function() {
