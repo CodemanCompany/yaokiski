@@ -111,6 +111,34 @@ var yaokiski = angular.module( 'yaokiski', [] )
 	return url;
 } )
 
+.factory( 'useful', function() {
+	var useful = {};
+
+	useful.merge = function( base, object ) {
+		if( typeof base != 'object' || typeof object != 'object' )
+			throw new Error( 'Incorrect parameters.' );
+
+		if( typeof Object.assign != undefined )
+			return Object.assign( base, object );
+
+		else {
+			var data = [];
+
+			console.debug( 'Alternative!' );
+
+			for( var index in base )
+				data.push( base[ index ] );
+
+			for( var index in object )
+				data.push( object[ index ] );
+
+			return data;
+		}	// end else
+	};
+
+	return useful;
+} )
+
 .factory( 'validation', function() {
 	var validation = {
 		"email":	/^[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
