@@ -192,22 +192,33 @@ var yaokiski = angular.module( 'yaokiski', [] )
 	return request;
 } ] )
 
-.factory( 'url', function() {
+.factory( 'url', [ 'useful', function( useful ) {
 	var url = {};
 
-	url.controller = null;
+	// TODO: Check
+	url.controller = {
+		"test":			"test.php",
+		"wordpress":	"/wp-admin/admin-ajax.php"
+	};
 
 	url.isValid = function( url ) {
 		if( ! url )
 			throw new Error( 'Invalid URL in the Request.' );
 	};
 
+	// TODO: Check
 	url.setController = function( data ) {
-		this.controller = data || {};
+		try {
+			this.controller = useful.merge( this.controller, data );
+		}	// end try
+
+		catch( error ) {
+			console.error( error.message );
+		}	// end catch
 	};
 
 	return url;
-} )
+} ] )
 
 .factory( 'useful', function() {
 	var useful = {};
