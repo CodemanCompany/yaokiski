@@ -250,6 +250,13 @@ var yaokiski = angular.module( 'yaokiski', [] )
 
 .factory( 'validation', function() {
 	var validation = {
+		"card":	{
+			"cvc":			/^\d{3,4}$/,
+			"exp_month":	/^\d{2}$/,
+			"exp_year":		/^\d{4}$/,
+			"number":		/^\d{4}[- ]?\d{4}[- ]?\d{4}[- ]?\d{3,4}$/
+		},
+
 		"email":	/^[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
 		"message":	/.{10,500}/,
 		"name":		/^(?=.*[aeiouáàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū])(?=.*[bcdfghjklmnñpqrstvwxyz])[a-zñ áàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū]{3,100}$/,
@@ -307,7 +314,7 @@ var yaokiski = angular.module( 'yaokiski', [] )
 		}	// end catch
 	};
 
-	$scope.share = function( event, data, type, url ) {
+	$scope.share = function( event, data, url, type ) {
 		event.preventDefault();
 
 		network.share( {
