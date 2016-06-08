@@ -7,9 +7,11 @@
 	</head>
 
 	<body>
+		<ng-file></ng-file>
 		<article data-ng-controller="ContactController">
 			<div>
 				<button ng-click="share( $event, { content: 'ada' }, 'twitter', 'http://www.ittla.edu.mx' )"></button>
+
 				<form name="form" novalidate="novalidate">
 					<label for="name">Nombre: *</label>
 					<input id="name" maxlength="100" name="name" placeholder="Nombre" required="required" type="text" data-ng-model="input.name" data-ng-pattern="validation.name" />
@@ -49,7 +51,7 @@
 		</article>
 
 		<script src="https://www.google.com/recaptcha/api.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 		<script src="js/yaokiski.js"></script>
 		<script src="js/app.js"></script>
 	</body>

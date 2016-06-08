@@ -4,6 +4,10 @@ var yaokiski = angular.module( 'yaokiski', [] )
 
 .config( function() {} )
 
+.component( 'ngFile', {
+	"template":	'<input type="file" name="files" />'
+} )
+
 .factory( 'display', [ 'url', function( url ) {
 	var display = {};
 
