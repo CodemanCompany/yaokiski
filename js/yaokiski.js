@@ -4,10 +4,6 @@ var yaokiski = angular.module( 'yaokiski', [] )
 
 .config( function() {} )
 
-.component( 'ngFile', {
-	"template":	'<input type="file" name="files" />'
-} )
-
 .factory( 'display', [ 'url', function( url ) {
 	var display = {};
 
@@ -260,49 +256,53 @@ var yaokiski = angular.module( 'yaokiski', [] )
 			"exp_year":		/^\d{4}$/,
 			"number":		/^\d{4}[- ]?\d{4}[- ]?\d{4}[- ]?\d{3,4}$/
 		},
-
-		"email":	/^[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-		"message":	/.{10,500}/,
-		"name":		/^(?=.*[aeiouáàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū])(?=.*[bcdfghjklmnñpqrstvwxyz])[a-zñ áàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū]{3,100}$/,
-		"subject":	/^(?=.*[(aeiouáàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū)|(bcdfghjklmnñpqrstvwxyz)|(0-9)])[\w aeiouáàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū]{3,100}$/,
-		"tel":		/^\+?(\d{1,3})?[- .]?\(?(?:\d{2,3})\)?[- .]?\d{3,4}[- .]?\d{3,4}$/
+		"contact":	{
+			"email":	/^[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+			"message":	/.{10,500}/,
+			"name":		/^(?=.*[aeiouáàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū])(?=.*[bcdfghjklmnñpqrstvwxyz])[a-zñ áàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū]{3,100}$/,
+			"subject":	/^(?=.*[(aeiouáàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū)|(bcdfghjklmnñpqrstvwxyz)|(0-9)])[\w aeiouáàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū]{3,100}$/,
+			"tel":		/^\+?(\d{1,3})?[- .]?\(?(?:\d{2,3})\)?[- .]?\d{3,4}[- .]?\d{3,4}$/
+		}
 	};
 
 	return validation;
 } )
 
-.controller( 'ContactController', [ '$scope', 'request', function( $scope, request ) {
-	$scope.reset = function() {
-		$scope.recaptcha = false;
-		grecaptcha.reset();
-		$scope.form.$setPristine();
-	};
+.component( 'contact', {
+	"controller":	[ '$scope', 'request', function( $scope, request ) {
+		$scope.reset = function() {
+			$scope.recaptcha = false;
+			grecaptcha.reset();
+			$scope.form.$setPristine();
+		};
 
-	$scope.action = function() {
-		if( $scope.form.$invalid ) {
-			$scope.form.email.$pristine = false;
-			$scope.form.message.$pristine = false;
-			$scope.form.name.$pristine = false;			
-			$scope.form.subject.$pristine = false;
-			$scope.form.tel.$pristine = false;
+		$scope.action = function() {
+			if( $scope.form.$invalid ) {
+				$scope.form.email.$pristine = false;
+				$scope.form.message.$pristine = false;
+				$scope.form.name.$pristine = false;			
+				$scope.form.subject.$pristine = false;
+				$scope.form.tel.$pristine = false;
 
-			return;
-		}	// end if
-
-		$scope.input[ 'g-recaptcha-response' ] = angular.element( '#g-recaptcha-response' ).val();
-		if( ! $scope.input[ 'g-recaptcha-response' ] ) {
-			$scope.recaptcha = true;
-			return;
-		}	// end if
-
-		request.get( 'http://familia.artezia.mx/js/controller/MainController.js', function( response ) {
-			if( request.check( response ) ) {
-
+				return;
 			}	// end if
-			$scope.reset();
-		} )
-	};
-} ] )
+
+			$scope.input[ 'g-recaptcha-response' ] = angular.element( '#g-recaptcha-response' ).val();
+			if( ! $scope.input[ 'g-recaptcha-response' ] ) {
+				$scope.recaptcha = true;
+				return;
+			}	// end if
+
+			request.get( 'http://familia.artezia.mx/js/controller/MainController.js', function( response ) {
+				if( request.check( response ) ) {
+
+				}	// end if
+				$scope.reset();
+			} )
+		};		
+	} ],
+	"templateUrl":	'/component/contact.html'
+} )
 
 .controller( 'YaokiskiController', [ '$scope', 'request', 'validation', 'network', function( $scope, request, validation, network ) {
 	$scope.validation = validation;

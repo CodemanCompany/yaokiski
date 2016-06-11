@@ -7,50 +7,17 @@
 	</head>
 
 	<body>
-		<ng-file></ng-file>
-		<article data-ng-controller="ContactController">
+		<!-- Falta directiva de archivos -->
+		<hr />
+		<article>
 			<div>
-				<button ng-click="share( $event, { content: 'ada' }, 'twitter', 'http://www.ittla.edu.mx' )"></button>
-
-				<form name="form" novalidate="novalidate">
-					<label for="name">Nombre: *</label>
-					<input id="name" maxlength="100" name="name" placeholder="Nombre" required="required" type="text" data-ng-model="input.name" data-ng-pattern="validation.name" />
-					<p data-ng-show="form.name.$invalid &amp;&amp; ! form.name.$pristine">Escribe tu nombre.</p>
-
-					<label for="email">Correo electrónico: *</label>
-					<input id="email" maxlength="60" name="email" placeholder="Correo electrónico" required="required" type="email" data-ng-model="input.email" data-ng-pattern="validation.email" />
-					<p data-ng-show="form.email.$invalid &amp;&amp; ! form.email.$pristine">Escribe tu email.</p>
-
-					<label for="tel">Teléfono: *</label>
-					<input id="tel" maxlength="30" name="tel" placeholder="Teléfono" required="required" type="tel" data-ng-model="input.tel" data-ng-pattern="validation.tel" />
-					<p data-ng-show="form.tel.$invalid &amp;&amp; ! form.tel.$pristine">Escribe tu teléfono.</p>
-
-					<label for="subject">Asunto: *</label>
-					<input id="subject" maxlength="100" name="subject" placeholder="Asunto" required="required" type="text" data-ng-model="input.subject" data-ng-pattern="validation.subject" />
-					<p data-ng-show="form.subject.$invalid &amp;&amp; ! form.subject.$pristine">Escribe el asunto.</p>
-
-					<br />
-
-					<span class="error pull-left" data-ng-show="form.message.$invalid &amp;&amp; ! form.message.$pristine">10 caracteres mínimo</span>
-					<p class="pull-right"><span class="fa fa-pencil"></span> {{( input.message.length ) ? input.message.length : 0}} de 500 caracteres.</p>
-					<label for="message">Mensaje: *</label>
-					<textarea id="message" maxlength="500" name="message" placeholder="Mensaje (Mínimo 10 caracteres)" required="required" rows="5" data-ng-model="input.message" data-ng-pattern="validation.message"></textarea>
-
-					<label for="privacy">
-						<input id="privacy" name="privacy" required="required" type="checkbox" data-ng-model="input.privacy" /> Acepto las condiciones del servicio y la política de privacidad de esta página.
-					</label>
-
-					<br />
-
-					<div class="g-recaptcha" data-sitekey="6LemrxcTAAAAADw2IaqCY0-arquCK1qcGNprv34E"></div>
-					<p data-ng-show="recaptcha">Completa el reCAPTCHA por favor.</p>
-
-					<button type="submit" data-ng-disabled="form.$pristine" data-ng-click="action()">Enviar Contacto</button>
-				</form>
+				<!-- <button ng-click="share( $event, { content: 'ada' }, 'twitter', 'http://www.ittla.edu.mx' )"></button> -->
+				<contact></contact>
 			</div>
 		</article>
 
 		<script src="https://www.google.com/recaptcha/api.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 		<script src="js/yaokiski.js"></script>
 		<script src="js/app.js"></script>
