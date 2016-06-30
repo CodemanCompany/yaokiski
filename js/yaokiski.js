@@ -2,7 +2,7 @@
 
 var yaokiski = angular.module( 'yaokiski', [] )
 
-.config( function() {} )
+.config( [ function() {} ] )
 
 .factory( 'display', [ 'url', function( url ) {
 	var display = {};
@@ -220,7 +220,64 @@ var yaokiski = angular.module( 'yaokiski', [] )
 	return url;
 } ] )
 
-.factory( 'useful', function() {
+.factory( 'storage', [ function() {
+	var storage = {};
+
+	storage.expire = ( 24 * 60 * 60 * 1000 ) * 30;
+
+	storage.getData = function( object ) {
+		try {
+			this.check();
+
+			if( ! ( object && typeof object === 'string' ) )
+				throw new Error( 'Incorrect parameters.' );
+
+			var data = this.local.getItem( object );
+
+			if( ! data )
+				throw new Error( 'Error obteniendo los datos.' );
+
+			var store = JSON.parse( data );
+			var expire = new Date( store.time ).getTime() + ( this.expire );
+			var now = new Date().getTime();
+		}	// end try
+
+		catch( error ) {
+			console.error( error.message );
+		}	// end catch
+
+		return now > expire ? false : store.data;
+	};
+
+	storage.check = function() {
+		if( ! this.local )
+			throw new Error( 'Don\'t support local storage.' );
+	};
+
+	storage.local = localStorage || null;
+
+	storage.setData = function( object, data ) {
+		try {
+			this.check();
+
+			if( ! ( object && typeof object === 'string' && data && typeof data === 'object' ) )
+				throw new Error( 'Incorrect parameters.' );
+
+			var store = { time: new Date(), "data": data };
+			console.debug( 'Save Object ' + object );
+		}	// end try
+
+		catch( error ) {
+			console.error( error.message );
+		}	// end catch
+
+		return this.local.setItem( object, JSON.stringify( store ) );
+	};
+
+	return storage;
+} ] )
+
+.factory( 'useful', [ function() {
 	var useful = {};
 
 	useful.merge = function( base, object ) {
@@ -246,9 +303,9 @@ var yaokiski = angular.module( 'yaokiski', [] )
 	};
 
 	return useful;
-} )
+} ] )
 
-.factory( 'validation', function() {
+.factory( 'validation', [ function() {
 	var validation = {
 		"card":	{
 			"cvc":			/^\d{3,4}$/,
@@ -262,47 +319,14 @@ var yaokiski = angular.module( 'yaokiski', [] )
 			"name":		/^(?=.*[aeiouáàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū])(?=.*[bcdfghjklmnñpqrstvwxyz])[a-zñ áàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū]{3,100}$/,
 			"subject":	/^(?=.*[(aeiouáàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū)|(bcdfghjklmnñpqrstvwxyz)|(0-9)])[\w aeiouáàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū]{3,100}$/,
 			"tel":		/^\+?(\d{1,3})?[- .]?\(?(?:\d{2,3})\)?[- .]?\d{3,4}[- .]?\d{3,4}$/
+		},
+		"login":	{
+			"password":	/^\d{4}$/,
 		}
 	};
 
 	return validation;
-} )
-
-.component( 'contact', {
-	"controller":	[ '$scope', 'request', function( $scope, request ) {
-		$scope.reset = function() {
-			$scope.recaptcha = false;
-			grecaptcha.reset();
-			$scope.form.$setPristine();
-		};
-
-		$scope.action = function() {
-			if( $scope.form.$invalid ) {
-				$scope.form.email.$pristine = false;
-				$scope.form.message.$pristine = false;
-				$scope.form.name.$pristine = false;			
-				$scope.form.subject.$pristine = false;
-				$scope.form.tel.$pristine = false;
-
-				return;
-			}	// end if
-
-			$scope.input[ 'g-recaptcha-response' ] = angular.element( '#g-recaptcha-response' ).val();
-			if( ! $scope.input[ 'g-recaptcha-response' ] ) {
-				$scope.recaptcha = true;
-				return;
-			}	// end if
-
-			request.get( 'http://familia.artezia.mx/js/controller/MainController.js', function( response ) {
-				if( request.check( response ) ) {
-
-				}	// end if
-				$scope.reset();
-			} )
-		};		
-	} ],
-	"templateUrl":	'/component/contact.html'
-} )
+} ] )
 
 .controller( 'YaokiskiController', [ '$scope', 'request', 'validation', 'network', function( $scope, request, validation, network ) {
 	$scope.validation = validation;

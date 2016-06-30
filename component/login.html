@@ -1,0 +1,17 @@
+<form name="form" novalidate="novalidate">
+	<label for="user">Correo electrónico: *</label>
+	<input id="user" maxlength="60" name="user" placeholder="E-mail" required="required" type="email" data-ng-model="input.user" data-ng-pattern="validation.contact.email" />
+	<p data-ng-show="form.user.$invalid &amp;&amp; ! form.user.$pristine">Correo electrónico incorrecto.</p>
+
+	<label for="password">Contraseña: *</label>
+	<input id="password" name="password" placeholder="Contraseña" required="required" type="password" data-ng-model="input.password" data-ng-pattern="validation.login.password" />
+	<p data-ng-show="form.password.$invalid &amp;&amp; ! form.password.$pristine">Contraseña incorrecta.</p>
+
+	<br />
+
+	<label for="remember">
+		<input id="remember" name="remember" required="required" type="checkbox" data-ng-model="input.remember" />Recordarme
+	</label>
+
+	<button type="submit" data-ng-click="action()" data-ng-disabled="form.$pristine">Enviar Contacto</button>
+</form>
