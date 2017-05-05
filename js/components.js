@@ -50,7 +50,7 @@ app.component( 'contact', {
 
 			$scope.reset();
 
-			if( input.remember  )
+			// if( input.remember  )
 
 			// request.post( '', $scope.input )
 			// .then( function( response ) {
