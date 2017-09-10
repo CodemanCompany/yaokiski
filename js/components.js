@@ -1,5 +1,7 @@
 app.component( 'contact', {
 	"controller":	[ '$scope', 'request', function( $scope, request ) {
+		$scope.loading = false;
+
 		$scope.action = function() {
 			if( $scope.form.$invalid ) {
 				$scope.form.email.$pristine = false;
@@ -16,6 +18,8 @@ app.component( 'contact', {
 				return;
 			}	// end if
 
+			$scope.loading = true;
+
 			// request.post( '', $scope.input )
 			// .then( function( response ) {
 			// 	if( request.check( response ) ) {
@@ -26,6 +30,7 @@ app.component( 'contact', {
 		};
 
 		$scope.reset = function() {
+			$scope.loading = false;
 			$scope.recaptcha = false;
 			grecaptcha.reset();
 			$scope.form.$setPristine();
@@ -38,6 +43,7 @@ app.component( 'contact', {
 .component( 'login', {
 	"controller":	[ '$scope', 'request', 'storage', function( $scope, request, storage ) {
 		$scope.input = {};
+		$scope.loading = false;
 
 		console.log( storage.getData( 'name' ) );
 
@@ -52,6 +58,8 @@ app.component( 'contact', {
 
 			// if( input.remember  )
 
+			$scope.loading = true;
+
 			// request.post( '', $scope.input )
 			// .then( function( response ) {
 			// 	if( request.check( response ) ) {
@@ -62,6 +70,7 @@ app.component( 'contact', {
 		};
 
 		$scope.reset = function() {
+			$scope.loading = false;
 			$scope.form.$setPristine();
 			$scope.input = {};
 		};
