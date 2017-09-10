@@ -33,7 +33,7 @@ app.component( 'contact', {
 		};	
 	} ],
 	"templateUrl":	'/component/contact.html'
-} )
+} );
 
 .component( 'login', {
 	"controller":	[ '$scope', 'request', 'storage', function( $scope, request, storage ) {
