@@ -4,7 +4,7 @@ app.component( 'contact', {
 			if( $scope.form.$invalid ) {
 				$scope.form.email.$pristine = false;
 				$scope.form.message.$pristine = false;
-				$scope.form.name.$pristine = false;			
+				$scope.form.name.$pristine = false;
 				$scope.form.subject.$pristine = false;
 				$scope.form.tel.$pristine = false;
 				return;
