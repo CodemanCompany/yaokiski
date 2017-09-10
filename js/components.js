@@ -32,7 +32,7 @@ app.component( 'contact', {
 			$scope.input = {};
 		};	
 	} ],
-	"templateUrl":	'/component/contact.html'
+	"templateUrl":	'/component/contact.html',
 } );
 
 .component( 'login', {
@@ -66,5 +66,5 @@ app.component( 'contact', {
 			$scope.input = {};
 		};
 	} ],
-	"templateUrl":	'/component/login.html'
+	"templateUrl":	'/component/login.html',
 } );

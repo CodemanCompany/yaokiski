@@ -10,7 +10,7 @@ var yaokiski = angular.module( 'yaokiski', [] )
 	display.data = {
 		"control":	null,
 		"device":	{},
-		"screen":	null
+		"screen":	null,
 	};
 
 	display.instance = function( data ) {
@@ -39,14 +39,14 @@ var yaokiski = angular.module( 'yaokiski', [] )
 
 		this.data.device = {
 			"left":	( this.data.screen.width / 2 ) - ( this.data.control.width / 2 ),
-			"top":	( this.data.screen.height / 2 ) - ( this.data.control.height / 2 )
+			"top":	( this.data.screen.height / 2 ) - ( this.data.control.height / 2 ),
 		};
 	};
 
 	display.setSize = function( size ) {
 		display.data.control = size || {
 			"height":	300,
-			"width":	600
+			"width":	600,
 		};
 	};
 
@@ -127,7 +127,7 @@ var yaokiski = angular.module( 'yaokiski', [] )
 				params:	params,
 				transformResponse:	function( data, headersGetter, status ) {
 					return JSON.parse( data );
-				}
+				},
 			} );
 		}	// end try
 
@@ -176,7 +176,7 @@ var yaokiski = angular.module( 'yaokiski', [] )
 				},
 				transformResponse:	function( data, headersGetter, status ) {
 					return JSON.parse( data );
-				}
+				},
 			} );
 		}	// end try
 
@@ -198,7 +198,7 @@ var yaokiski = angular.module( 'yaokiski', [] )
 	// TODO: Check
 	url.controller = {
 		"test":			"test.php",
-		"wordpress":	"/wp-admin/admin-ajax.php"
+		"wordpress":	"/wp-admin/admin-ajax.php",
 	};
 
 	url.isValid = function( url ) {
@@ -311,14 +311,14 @@ var yaokiski = angular.module( 'yaokiski', [] )
 			"cvc":			/^\d{3,4}$/,
 			"exp_month":	/^\d{2}$/,
 			"exp_year":		/^\d{4}$/,
-			"number":		/^\d{4}[- ]?\d{4}[- ]?\d{4}[- ]?\d{3,4}$/
+			"number":		/^\d{4}[- ]?\d{4}[- ]?\d{4}[- ]?\d{3,4}$/,
 		},
 		"contact":	{
 			"email":	/^[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
 			"message":	/.{10,500}/,
 			"name":		/^(?=.*[aeiouáàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū])(?=.*[bcdfghjklmnñpqrstvwxyz])[a-zñ áàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū]{3,100}$/i,
 			"subject":	/^(?=.*[(aeiouáàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū)|(bcdfghjklmnñpqrstvwxyz)|(0-9)])[\w aeiouáàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū]{3,100}$/i,
-			"tel":		/^\+?(\d{1,3})?[- .]?\(?(?:\d{2,3})\)?[- .]?\d{3,4}[- .]?\d{3,4}$/
+			"tel":		/^\+?(\d{1,3})?[- .]?\(?(?:\d{2,3})\)?[- .]?\d{3,4}[- .]?\d{3,4}$/,
 		},
 		"login":	{
 			"password":	/^\d{4}$/,
@@ -350,7 +350,7 @@ var yaokiski = angular.module( 'yaokiski', [] )
 			"media":	data.media || null,
 			"network":	type,
 			"screen":	window.screen,
-			"url":		url
+			"url":		url,
 		} );
 	};
 } ] );
