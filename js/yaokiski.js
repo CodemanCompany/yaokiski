@@ -80,7 +80,8 @@ var yaokiski = angular.module( 'yaokiski', [] )
 				share = 'https://twitter.com/share?via=CHANGE_USER&text=' + data.content + '&url=' + data.url;
 				break;
 			case 'whatsapp':
-				location.href = encodeURI( 'whatsapp://send?text=CHANGE_USER: ' + data.content + ' ' + data.url );
+				window.open( encodeURI( 'whatsapp://send?text=CHANGE_USER: ' + data.content + ' ' + data.url ) );
+				return;
 				break;
 		}	// end switch
 
