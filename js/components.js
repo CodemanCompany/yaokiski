@@ -1,6 +1,7 @@
 app.component( 'contact', {
-	"controller":	[ '$scope', 'request', function( $scope, request ) {
+	"controller":	[ '$scope', 'request', 'validation', function( $scope, request, validation ) {
 		$scope.loading = false;
+		$scope.validation = validation;
 
 		$scope.action = function() {
 			if( $scope.form.$invalid ) {
@@ -35,15 +36,16 @@ app.component( 'contact', {
 			grecaptcha.reset();
 			$scope.form.$setPristine();
 			$scope.input = {};
-		};	
+		};
 	} ],
 	"templateUrl":	'/component/contact.html',
 } );
 
 .component( 'login', {
-	"controller":	[ '$scope', 'request', 'storage', function( $scope, request, storage ) {
+	"controller":	[ '$scope', 'request', 'storage', 'validation' function( $scope, request, storage, validation ) {
 		$scope.input = {};
 		$scope.loading = false;
+		$scope.validation = validation;
 
 		console.log( storage.getData( 'name' ) );
 

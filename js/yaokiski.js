@@ -329,9 +329,7 @@ var yaokiski = angular.module( 'yaokiski', [] )
 	return validation;
 } ] )
 
-.controller( 'YaokiskiController', [ '$scope', 'request', 'validation', 'network', function( $scope, request, validation, network ) {
-	$scope.validation = validation;
-
+.controller( 'YaokiskiController', [ '$scope', 'network', 'request', function( $scope, network, request ) {
 	$scope.go = function( url ) {
 		try {
 			request.url.isValid( url )
