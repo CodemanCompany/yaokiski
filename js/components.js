@@ -39,10 +39,10 @@ app.component( 'contact', {
 		};
 	} ],
 	"templateUrl":	'/component/contact.html',
-} );
+} )
 
 .component( 'login', {
-	"controller":	[ '$scope', 'request', 'storage', 'validation' function( $scope, request, storage, validation ) {
+	"controller":	[ '$scope', 'request', 'storage', 'validation', function( $scope, request, storage, validation ) {
 		$scope.input = {};
 		$scope.loading = false;
 		$scope.validation = validation;

@@ -308,21 +308,25 @@ var yaokiski = angular.module( 'yaokiski', [] )
 
 .factory( 'validation', [ function() {
 	var validation = {
+		"people": {
+			"curp": null,
+			"rfc": null,
+		},
 		"card":	{
-			"cvc":			/^\d{3,4}$/,
-			"exp_month":	/^\d{2}$/,
-			"exp_year":		/^\d{4}$/,
-			"number":		/^\d{4}[- ]?\d{4}[- ]?\d{4}[- ]?\d{3,4}$/,
+			"cvc": /^\d{3,4}$/,
+			"exp_month": /^\d{2}$/,
+			"exp_year": /^\d{4}$/,
+			"number": /^\d{4}[- ]?\d{4}[- ]?\d{4}[- ]?\d{3,4}$/,
 		},
 		"contact":	{
-			"email":	/^[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-			"message":	/.{10,500}/,
-			"name":		/^(?=.*[aeiouáàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū])(?=.*[bcdfghjklmnñpqrstvwxyz])[a-zñ áàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū]{3,100}$/i,
-			"subject":	/^(?=.*[(aeiouáàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū)|(bcdfghjklmnñpqrstvwxyz)|(0-9)])[\w aeiouáàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū]{3,100}$/i,
-			"tel":		/^\+?(\d{1,3})?[- .]?\(?(?:\d{2,3})\)?[- .]?\d{3,4}[- .]?\d{3,4}$/,
+			"email": /^[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+			"message": /.{10,500}/,
+			"name": /^(?=.*[aeiouáàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū])(?=.*[bcdfghjklmnñpqrstvwxyz])[a-zñ áàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū]{3,100}$/i,
+			"subject": /^(?=.*[(aeiouáàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū)|(bcdfghjklmnñpqrstvwxyz)|(0-9)])[\w aeiouáàäâãåąæāéèëêęėēíïìîįīóòöôõøœōúüùûū]{3,100}$/i,
+			"tel": /^\+?(\d{1,3})?[- .]?\(?(?:\d{2,3})\)?[- .]?\d{3,4}[- .]?\d{3,4}$/,
 		},
 		"login":	{
-			"password":	/^\d{4}$/,
+			"password": /.{8,50}/,
 		}
 	};
 
@@ -333,7 +337,7 @@ var yaokiski = angular.module( 'yaokiski', [] )
 	$scope.go = function( url ) {
 		try {
 			request.url.isValid( url )
-			location.href = url;	
+			location.href = url;
 		}	// end try
 
 		catch( error ) {
