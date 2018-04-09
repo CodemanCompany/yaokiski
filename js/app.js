@@ -17,7 +17,7 @@ var app = angular.module( 'app', [ 'ngRoute', 'yaokiski' ] )
 		"redirectTo":	'/'
 	} );
 
-	// $locationProvider.html5Mode( true );
+	$locationProvider.html5Mode( true );
 } ] )
 
 .controller( 'MainController', [ '$controller', '$scope', function( $controller, $scope ) {

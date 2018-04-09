@@ -170,11 +170,21 @@ var yaokiski = angular.module( 'yaokiski', [] )
 					var formData = new FormData();
 
 					angular.forEach( data, function( value, key ) {
-						formData.append( key, value );
+						if( Array.isArray( value ) ) {
+							value.forEach( ( element, index, array ) => {
+								formData.append( key + '[]', element );	
+							} );
+						}	// end if
+						else if( typeof( value ) === 'object' ) {
+							formData.append( key, JSON.stringify( value ) );
+						}	// end if
+						else
+							formData.append( key, value );
 					} );
 
 					return formData;
 				},
+
 				transformResponse:	function( data, headersGetter, status ) {
 					return JSON.parse( data );
 				},
