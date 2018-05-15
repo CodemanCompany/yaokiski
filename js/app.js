@@ -22,5 +22,4 @@ var app = angular.module( 'app', [ 'ngRoute', 'yaokiski' ] )
 
 .controller( 'MainController', [ '$controller', '$scope', function( $controller, $scope ) {
 	$controller( 'YaokiskiController', { "$scope": $scope } );
-	$scope.test = 'kuetspali';
 } ] );
