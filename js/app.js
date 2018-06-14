@@ -1,6 +1,4 @@
-'use strict'
-
-var app = angular.module( 'app', [ 'ngRoute', 'yaokiski' ] )
+const app = angular.module( 'app', [ 'ngRoute', 'yaokiski' ] )
 
 .config( [ '$routeProvider', '$locationProvider', function( $routeProvider, $locationProvider ) {
 	$routeProvider
