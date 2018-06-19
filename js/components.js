@@ -47,7 +47,7 @@ app.component( 'contact', {
 		$scope.loading = false;
 		$scope.validation = validation;
 
-		console.log( storage.getData( 'name' ) );
+		// console.log( storage.getData( 'name' ) );
 
 		$scope.action = () => {
 			if( $scope.form.$invalid ) {

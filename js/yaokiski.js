@@ -313,7 +313,7 @@ const yaokiski = angular.module( 'yaokiski', [] )
 			if( ! ( object && typeof object === 'string' && data && typeof data === 'object' ) )
 				throw new Error( 'Incorrect parameters.' );
 
-			const store = { time: new Date(), "data": data };
+			var store = { time: new Date(), "data": data };
 			console.debug( 'Save Object ' + object );
 		}	// end try
 
