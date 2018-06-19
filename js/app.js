@@ -1,6 +1,6 @@
 const app = angular.module( 'app', [ 'ngRoute', 'yaokiski' ] )
 
-.config( [ '$routeProvider', '$locationProvider', function( $routeProvider, $locationProvider ) {
+.config( [ '$routeProvider', '$locationProvider', ( $routeProvider, $locationProvider ) => {
 	$routeProvider
 	.when( '/', {
 		"templateUrl":	'structure/home.html'
@@ -18,6 +18,8 @@ const app = angular.module( 'app', [ 'ngRoute', 'yaokiski' ] )
 	$locationProvider.html5Mode( true );
 } ] )
 
-.controller( 'MainController', [ '$controller', '$scope', function( $controller, $scope ) {
+// .config( [ () => {} ] )
+
+.controller( 'MainController', [ '$controller', '$scope', ( $controller, $scope ) => {
 	$controller( 'YaokiskiController', { "$scope": $scope } );
 } ] );

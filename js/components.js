@@ -1,9 +1,9 @@
 app.component( 'contact', {
-	"controller":	[ '$scope', 'request', 'validation', function( $scope, request, validation ) {
+	"controller":	[ '$scope', 'request', 'validation', ( $scope, request, validation ) => {
 		$scope.loading = false;
 		$scope.validation = validation;
 
-		$scope.action = function() {
+		$scope.action = () => {
 			if( $scope.form.$invalid ) {
 				$scope.form.email.$pristine = false;
 				$scope.form.message.$pristine = false;
@@ -30,7 +30,7 @@ app.component( 'contact', {
 			// }, function( error ) {} );
 		};
 
-		$scope.reset = function() {
+		$scope.reset = () => {
 			$scope.loading = false;
 			$scope.recaptcha = false;
 			grecaptcha.reset();
@@ -42,14 +42,14 @@ app.component( 'contact', {
 } )
 
 .component( 'login', {
-	"controller":	[ '$scope', 'request', 'storage', 'validation', function( $scope, request, storage, validation ) {
+	"controller":	[ '$scope', 'request', 'storage', 'validation', ( $scope, request, storage, validation ) => {
 		$scope.input = {};
 		$scope.loading = false;
 		$scope.validation = validation;
 
 		console.log( storage.getData( 'name' ) );
 
-		$scope.action = function() {
+		$scope.action = () => {
 			if( $scope.form.$invalid ) {
 				$scope.form.user.$pristine = false;
 				$scope.form.password.$pristine = false;
@@ -71,7 +71,7 @@ app.component( 'contact', {
 			// }, function( error ) {} );
 		};
 
-		$scope.reset = function() {
+		$scope.reset = () => {
 			$scope.loading = false;
 			$scope.form.$setPristine();
 			$scope.input = {};

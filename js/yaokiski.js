@@ -1,8 +1,8 @@
 const yaokiski = angular.module( 'yaokiski', [] )
 
-.config( [ function() {} ] )
+.config( [ () => {} ] )
 
-.factory( 'display', [ 'url', function( url ) {
+.factory( 'display', [ 'url', ( url ) => {
 	var display = {};
 
 	display.data = {
@@ -51,7 +51,7 @@ const yaokiski = angular.module( 'yaokiski', [] )
 	return display;
 } ] )
 
-.factory( 'network', [ 'display', function( display ) {
+.factory( 'network', [ 'display', ( display ) => {
 	var network = {};
 
 	network.check = function( data ) {
@@ -61,7 +61,7 @@ const yaokiski = angular.module( 'yaokiski', [] )
 		return this.prepare( data );
 	};
 
-	network.prepare = function( data ) {
+	network.prepare = ( data ) => {
 		var share = null;
 		
 		switch( data.network ) {
@@ -100,18 +100,49 @@ const yaokiski = angular.module( 'yaokiski', [] )
 	return network;
 } ] )
 
-.factory( 'request', [ '$http', 'url', function( $http, url ) {
+.factory( 'request', [ '$http', 'url', ( $http, url ) => {
 	var request = {};
 
 	request.data = null;
 
-	request.youHaveparameters = function( params ) {
-		if( ! params )
-			throw new Error( 'No data.' );
+	request.check = function( response ) {
+		if( ! response.data.status || response.data.status !== 'success' )
+			return false;
+
+		this.data = response.data;
+		return true;
 	};
 
 	request.getData = function( response ) {
 		return this.data || response.data || response || null;
+	};
+
+	request.isWarning = ( response ) => {
+		if( ! response.data.status || response.data.status !== 'warning' )
+			return false;
+
+		return true;
+	};
+
+	request.delete = function( url, params ) {
+		var object = null;
+
+		try {
+			this.url.isValid( url );
+
+			object = $http( {
+				method:	'DELETE',
+				url:	url,
+				params:	params,
+				transformResponse:	( data, headersGetter, status ) => JSON.parse( data ),
+			} );
+		}	// end try
+
+		catch( error ) {
+			console.error( error.message );
+		}	// end catch
+
+		return object;
 	};
 
 	request.get = function( url, params ) {
@@ -124,9 +155,7 @@ const yaokiski = angular.module( 'yaokiski', [] )
 				method:	'GET',
 				url:	url,
 				params:	params,
-				transformResponse:	function( data, headersGetter, status ) {
-					return JSON.parse( data );
-				},
+				transformResponse:	( data, headersGetter, status ) => JSON.parse( data ),
 			} );
 		}	// end try
 
@@ -135,21 +164,6 @@ const yaokiski = angular.module( 'yaokiski', [] )
 		}	// end catch
 
 		return object;
-	};
-
-	request.check = function( response ) {
-		if( ! response.data.status || response.data.status !== 'success' )
-			return false;
-
-		this.data = response.data;
-		return true;
-	};
-
-	request.isWarning = function( response ) {
-		if( ! response.data.status || response.data.status !== 'warning' )
-			return false;
-
-		return true;
 	};
 
 	request.post = function( url, data ) {
@@ -164,28 +178,8 @@ const yaokiski = angular.module( 'yaokiski', [] )
 				url:		url,
 				headers:	{ 'Content-Type': undefined },
 				data:		data,
-				transformRequest:	function( data, headersGetter ) {
-					var formData = new FormData();
-
-					angular.forEach( data, function( value, key ) {
-						if( Array.isArray( value ) ) {
-							value.forEach( ( element, index, array ) => {
-								formData.append( key + '[]', element );	
-							} );
-						}	// end if
-						else if( typeof( value ) === 'object' ) {
-							formData.append( key, JSON.stringify( value ) );
-						}	// end if
-						else
-							formData.append( key, value );
-					} );
-
-					return formData;
-				},
-
-				transformResponse:	function( data, headersGetter, status ) {
-					return JSON.parse( data );
-				},
+				transformRequest:	( data, headersGetter ) => request.transform( data ),
+				transformResponse:	( data, headersGetter, status ) => JSON.parse( data ),
 			} );
 		}	// end try
 
@@ -196,7 +190,54 @@ const yaokiski = angular.module( 'yaokiski', [] )
 		return object;
 	};
 
+	request.put = function( url, data ) {
+		var object = null;
+
+		try {
+			this.url.isValid( url );
+			this.youHaveparameters( data );
+
+			object = $http( {
+				method:		'PUT',
+				url:		url,
+				headers:	{ 'Content-Type': undefined },
+				data:		data,
+				transformRequest:	( data, headersGetter ) => request.transform( data ),
+				transformResponse:	( data, headersGetter, status ) => JSON.parse( data ),
+			} );
+		}	// end try
+
+		catch( error ) {
+			console.error( error.message );
+		}	// end catch
+
+		return object;
+	};
+
+	request.transform = ( data ) => {
+		const formData = new URLSearchParams();
+		angular.forEach( data, function( value, key ){
+			if( typeof( value ) === 'object' ) {
+				formData.set( key, JSON.stringify( value ) );
+			}	// end if
+			else if( Array.isArray( value ) ) {
+				value.forEach( ( element, index, array ) => {
+					formData.set( key + '[]', element );	
+				} );
+			}	// end if
+			else
+				formData.set( key, value );
+		} );
+
+		return formData;
+	};	// end transform
+
 	request.url = url;
+
+	request.youHaveparameters = function( params ) {
+		if( ! params )
+			throw new Error( 'No data.' );
+	};
 
 	return request;
 } ] )
@@ -210,7 +251,7 @@ const yaokiski = angular.module( 'yaokiski', [] )
 		"wordpress":	"/wp-admin/admin-ajax.php",
 	};
 
-	url.isValid = function( url ) {
+	url.isValid = ( url ) => {
 		if( ! url )
 			throw new Error( 'Invalid URL in the Request.' );
 	};
@@ -229,7 +270,7 @@ const yaokiski = angular.module( 'yaokiski', [] )
 	return url;
 } ] )
 
-.factory( 'storage', [ function() {
+.factory( 'storage', [ () => {
 	var storage = {};
 
 	storage.expire = ( 24 * 60 * 60 * 1000 ) * 30;
@@ -241,7 +282,7 @@ const yaokiski = angular.module( 'yaokiski', [] )
 			if( ! ( object && typeof object === 'string' ) )
 				throw new Error( 'Incorrect parameters.' );
 
-			var data = this.local.getItem( object );
+			const data = this.local.getItem( object );
 
 			if( ! data )
 				throw new Error( 'Error obteniendo los datos.' );
@@ -272,7 +313,7 @@ const yaokiski = angular.module( 'yaokiski', [] )
 			if( ! ( object && typeof object === 'string' && data && typeof data === 'object' ) )
 				throw new Error( 'Incorrect parameters.' );
 
-			var store = { time: new Date(), "data": data };
+			const store = { time: new Date(), "data": data };
 			console.debug( 'Save Object ' + object );
 		}	// end try
 
@@ -286,10 +327,10 @@ const yaokiski = angular.module( 'yaokiski', [] )
 	return storage;
 } ] )
 
-.factory( 'useful', [ function() {
+.factory( 'useful', [ () => {
 	var useful = {};
 
-	useful.merge = function( base, object ) {
+	useful.merge = ( base, object ) => {
 		if( typeof base != 'object' || typeof object != 'object' )
 			throw new Error( 'Incorrect parameters.' );
 
@@ -297,7 +338,7 @@ const yaokiski = angular.module( 'yaokiski', [] )
 			return Object.assign( base, object );
 
 		else {
-			var data = [];
+			const data = [];
 
 			console.debug( 'Alternative!' );
 
@@ -314,8 +355,8 @@ const yaokiski = angular.module( 'yaokiski', [] )
 	return useful;
 } ] )
 
-.factory( 'validation', [ function() {
-	var validation = {
+.factory( 'validation', [ () => {
+	const validation = {
 		"people": {
 			"curp": null,
 			"rfc": null,
@@ -342,7 +383,7 @@ const yaokiski = angular.module( 'yaokiski', [] )
 } ] )
 
 .controller( 'YaokiskiController', [ '$scope', 'network', 'request', function( $scope, network, request ) {
-	$scope.go = function( url ) {
+	$scope.go = ( url ) => {
 		try {
 			request.url.isValid( url )
 			location.href = url;
@@ -353,7 +394,7 @@ const yaokiski = angular.module( 'yaokiski', [] )
 		}	// end catch
 	};
 
-	$scope.share = function( event, data, url, type ) {
+	$scope.share = ( event, data, url, type ) => {
 		event.preventDefault();
 
 		network.share( {
