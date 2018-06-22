@@ -1,4 +1,4 @@
-const app = angular.module( 'app', [ 'ngRoute', 'yaokiski' ] )
+const app = angular.module( 'app', [ /*'ngRoute',*/ 'yaokiski' ] )
 
 // .config( [ '$routeProvider', '$locationProvider', ( $routeProvider, $locationProvider ) => {
 // 	$routeProvider
