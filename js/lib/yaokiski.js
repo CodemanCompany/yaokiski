@@ -152,7 +152,7 @@ const yaokiski = angular.module( 'yaokiski', [] )
 			this.url.isValid( url );
 
 			object = $http( {
-				headers:this.getHeaders(),
+				headers:this.getHeaders( false ),
 				method:	'DELETE',
 				data:	data,
 				transformResponse:	( data, headersGetter, status ) => JSON.parse( data ),
@@ -174,6 +174,7 @@ const yaokiski = angular.module( 'yaokiski', [] )
 			this.url.isValid( url );
 
 			object = $http( {
+				headers:this.getHeaders(),
 				method:	'GET',
 				params:	params,
 				transformResponse:	( data, headersGetter, status ) => JSON.parse( data ),
