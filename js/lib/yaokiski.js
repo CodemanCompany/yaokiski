@@ -104,6 +104,7 @@ const yaokiski = angular.module( 'yaokiski', [] )
 	var request = {};
 
 	request.data = null;
+	request.token = '';
 
 	request.check = function( response ) {
 		if( ! response.data.status || response.data.status !== 'success' )
@@ -115,6 +116,15 @@ const yaokiski = angular.module( 'yaokiski', [] )
 
 	request.getData = function( response ) {
 		return this.data || response.data || response || null;
+	};
+
+	request.getHeaders = ( activate = true ) => {
+		// TODO: check
+		// this.getToken();
+		return {
+			"Content-Type": activate ? "application/json" : undefined,
+			"Authorization": "Bearer " + this.token
+		};
 	};
 
 	request.isWarning = ( response ) => {
@@ -178,7 +188,7 @@ const yaokiski = angular.module( 'yaokiski', [] )
 				url:		url,
 				headers:	{ 'Content-Type': undefined },
 				data:		data,
-				transformRequest:	( data, headersGetter ) => request.transform( data ),
+				// transformRequest:	( data, headersGetter ) => request.transform( data ),
 				transformResponse:	( data, headersGetter, status ) => JSON.parse( data ),
 			} );
 		}	// end try
@@ -202,7 +212,7 @@ const yaokiski = angular.module( 'yaokiski', [] )
 				url:		url,
 				headers:	{ 'Content-Type': undefined },
 				data:		data,
-				transformRequest:	( data, headersGetter ) => request.transform( data ),
+				// transformRequest:	( data, headersGetter ) => request.transform( data ),
 				transformResponse:	( data, headersGetter, status ) => JSON.parse( data ),
 			} );
 		}	// end try
@@ -234,7 +244,7 @@ const yaokiski = angular.module( 'yaokiski', [] )
 
 	request.url = url;
 
-	request.youHaveparameters = function( params ) {
+	request.youHaveparameters = ( params ) => {
 		if( ! params )
 			throw new Error( 'No data.' );
 	};
