@@ -3,11 +3,6 @@ app.component( 'contact', {
 		$scope.loading = false;
 		$scope.validation = validation;
 
-		request.get( 'http://127.0.0.1:8000/', {test:1} )
-		.then( (success) => {
-			console.log( success );
-		} )
-
 		$scope.action = () => {
 			if( $scope.form.$invalid ) {
 				$scope.form.email.$pristine = false;

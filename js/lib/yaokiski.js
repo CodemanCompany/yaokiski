@@ -104,7 +104,7 @@ const yaokiski = angular.module( 'yaokiski', [] )
 	var request = {};
 
 	request.data = null;
-	request.token = '';
+	request.token = 'CODEMAN_TOKEN';
 
 	request.check = function( response ) {
 		if( ! response.data.status || response.data.status !== 'success' )
@@ -118,10 +118,21 @@ const yaokiski = angular.module( 'yaokiski', [] )
 		return this.data || response.data || response || null;
 	};
 
-	request.getHeaders = ( activate = true ) => {
-		// TODO: check
-		// this.getToken();
+	request.getToken = function() {
+		this.token = localStorage.getItem( 'token' ) || '';
+		return this.token;
+	};
+
+	request.setToken = function( token ) {
+		localStorage.setItem( 'token', token );
+		this.token = token;
+	};
+
+	request.getHeaders = function( activate = true ) {
+		this.getToken();
+
 		return {
+			"Accept": "application/json",
 			"Content-Type": activate ? "application/json" : undefined,
 			"Authorization": "Bearer " + this.token
 		};
@@ -134,17 +145,18 @@ const yaokiski = angular.module( 'yaokiski', [] )
 		return true;
 	};
 
-	request.delete = function( url, params ) {
+	request.delete = function( url, data ) {
 		var object = null;
 
 		try {
 			this.url.isValid( url );
 
 			object = $http( {
+				headers:this.getHeaders(),
 				method:	'DELETE',
-				url:	url,
-				params:	params,
+				data:	data,
 				transformResponse:	( data, headersGetter, status ) => JSON.parse( data ),
+				url:	url,
 			} );
 		}	// end try
 
@@ -163,9 +175,9 @@ const yaokiski = angular.module( 'yaokiski', [] )
 
 			object = $http( {
 				method:	'GET',
-				url:	url,
 				params:	params,
 				transformResponse:	( data, headersGetter, status ) => JSON.parse( data ),
+				url:	url,
 			} );
 		}	// end try
 
@@ -184,12 +196,11 @@ const yaokiski = angular.module( 'yaokiski', [] )
 			this.youHaveparameters( data );
 
 			object = $http( {
-				method:		'POST',
-				url:		url,
-				headers:	{ 'Content-Type': undefined },
 				data:		data,
-				// transformRequest:	( data, headersGetter ) => request.transform( data ),
+				headers:	this.getHeaders(),
+				method:		'POST',
 				transformResponse:	( data, headersGetter, status ) => JSON.parse( data ),
+				url:		url,
 			} );
 		}	// end try
 
@@ -208,12 +219,11 @@ const yaokiski = angular.module( 'yaokiski', [] )
 			this.youHaveparameters( data );
 
 			object = $http( {
-				method:		'PUT',
-				url:		url,
-				headers:	{ 'Content-Type': undefined },
 				data:		data,
-				// transformRequest:	( data, headersGetter ) => request.transform( data ),
+				headers:	this.getHeaders(),
+				method:		'PUT',
 				transformResponse:	( data, headersGetter, status ) => JSON.parse( data ),
+				url:		url,
 			} );
 		}	// end try
 
