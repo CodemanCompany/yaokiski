@@ -105,6 +105,10 @@ const yaokiski = angular.module( 'yaokiski', [] )
 
 	request.data = null;
 	request.token = 'CODEMAN_TOKEN';
+	request.url = {
+		"api": "",
+		"page": "",
+	};
 
 	request.check = function( response ) {
 		if( ! response.data.status || response.data.status !== 'success' )
@@ -380,7 +384,7 @@ const yaokiski = angular.module( 'yaokiski', [] )
 	const validation = {
 		"people": {
 			"curp": null,
-			"rfc": null,
+			"rfc": /^([A-ZÑ&]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1]))([0-9A-Z]{3})?$/i,
 		},
 		"card":	{
 			"cvc": /^\d{3,4}$/,
