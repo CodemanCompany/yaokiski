@@ -216,6 +216,38 @@ const yaokiski = angular.module( 'yaokiski', [] )
 		return object;
 	};
 
+	request.postContact = function ( url, data ){
+		var object = null;
+
+		try {
+			this.url.isValid( url );
+			this.youHaveparameters( data );
+
+			object = $http( {
+				data:		data,
+				headers:	{ 'Content-Type': undefined },
+				method:		'POST',
+				transformRequest:	( data, headersGetter ) => {
+					var formData = new FormData();
+
+					angular.forEach( data, ( value, key ) => {
+						formData.append( key, value );
+					} );
+
+					return formData;
+				},
+				transformResponse:	( data, headersGetter, status ) => JSON.parse( data ),
+				url:		url,
+			} );
+		}	// end try
+
+		catch( error ) {
+			console.error( error.message );
+		}	// end catch
+
+		return object;
+	};
+
 	request.put = function( url, data ) {
 		var object = null;
 
