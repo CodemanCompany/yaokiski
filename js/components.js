@@ -4,6 +4,7 @@ app.component( 'contact', {
 		$scope.validation = validation;
 
 		$scope.action = () => {
+
 			if( $scope.form.$invalid ) {
 				$scope.form.email.$pristine = false;
 				$scope.form.message.$pristine = false;
@@ -13,27 +14,41 @@ app.component( 'contact', {
 				return;
 			}	// end if
 
-			$scope.input[ 'g-recaptcha-response' ] = angular.element( '#g-recaptcha-response' ).val();
-			if( ! $scope.input[ 'g-recaptcha-response' ] ) {
-				$scope.recaptcha = true;
-				return;
-			}	// end if
+			grecaptcha.ready(function () {
+				grecaptcha.execute('reCAPTCHA3_site_key', { action: 'contact' } )
+				.then(function ( token ) {
 
-			$scope.loading = true;
+					// var recaptchaResponse = document.getElementById('recaptchaResponse');
+					// recaptchaResponse.value = token;
+					// $scope.input.recaptcha = token;
 
-			// request.post( '', $scope.input )
-			// .then( function( response ) {
-			// 	if( request.check( response ) ) {
-					
-			// 	}	// end if
-			// 	$scope.reset();
-			// }, function( error ) {} );
+					// $scope.input[ 'g-recaptcha-response' ] = angular.element( '#g-recaptcha-response' ).val();
+					$scope.input[ 'g-recaptcha-response' ] = token;
+					if( ! $scope.input[ 'g-recaptcha-response' ] ) {
+						// $scope.recaptcha = true;
+						return;
+					}	// end if
+		
+					// $scope.loading = true;
+		
+					// request.postContact( '/controller/contact.php', $scope.input )
+					// .then( function( response ) {
+					// 	if( request.check( response ) ) {
+					// 	}	// end if
+					// 	else {
+					// 	}
+					// 	$scope.reset();
+					// }, function( error ) {} );
+
+				});
+			}); //recaptcha watcher
+
 		};
 
 		$scope.reset = () => {
 			$scope.loading = false;
-			$scope.recaptcha = false;
-			grecaptcha.reset();
+			// $scope.recaptcha = false;
+			// grecaptcha.reset();
 			$scope.form.$setPristine();
 			$scope.input = {};
 		};
