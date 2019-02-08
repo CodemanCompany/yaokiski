@@ -82,7 +82,6 @@ app.component( 'contact', {
 			} )
 			Swal.showLoading();
 
-			$scope.input[ 'g-recaptcha-response' ] = token;
 			request.post( '/', $scope.input, false )
 			.then( ( response ) => {
 				Swal.close();
