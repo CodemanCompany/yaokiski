@@ -1,10 +1,9 @@
 app.component( 'contact', {
-	"controller":	[ '$scope', 'request', 'validation', ( $scope, request, validation ) => {
+	"controller":	[ '$scope', '$window', 'request', 'validation', ( $scope, $window, request, validation ) => {
 		$scope.loading = false;
 		$scope.validation = validation;
 
 		$scope.action = () => {
-
 			if( $scope.form.$invalid ) {
 				$scope.form.email.$pristine = false;
 				$scope.form.message.$pristine = false;
@@ -14,35 +13,43 @@ app.component( 'contact', {
 				return;
 			}	// end if
 
-			grecaptcha.ready(function () {
-				grecaptcha.execute('reCAPTCHA3_site_key', { action: 'contact' } )
-				.then(function ( token ) {
-
-					// var recaptchaResponse = document.getElementById('recaptchaResponse');
-					// recaptchaResponse.value = token;
-					// $scope.input.recaptcha = token;
-
-					// $scope.input[ 'g-recaptcha-response' ] = angular.element( '#g-recaptcha-response' ).val();
+			grecaptcha.ready( () => {
+				grecaptcha.execute( '6LcWlosUAAAAANwj1zfKXKmOpfyQHczJiXvlwRBj', { "action": "homepage" } )
+				.then( ( token ) => {
+					Swal.fire( {
+						"allowOutsideClick": false,
+						"text": "Espere un momento por favor.",
+						"title": "Enviando mensaje ...",
+					} )
+					Swal.showLoading();
+		
 					$scope.input[ 'g-recaptcha-response' ] = token;
-					if( ! $scope.input[ 'g-recaptcha-response' ] ) {
-						// $scope.recaptcha = true;
-						return;
-					}	// end if
+					console.log($scope.input)
+					request.post( '/controller/contact.php', $scope.input, false )
+					.then( function( response ) {
+						Swal.close();
 		
-					// $scope.loading = true;
+						if( request.check( response ) ) {
+							Swal.fire( {
+								"confirmButtonText": "Aceptar",
+								"text": "Operación realizada con éxito.",
+								"title": "Éxito",
+								"type": "success",
+							} );
+						}	// end if
+						else {
+							Swal.fire( {
+								"confirmButtonText": "Aceptar",
+								"text": "Por el momento no se puede realizar la operación, intente de nueva más tarde.",
+								"title": "Atención",
+								"type": "error",
+							} );
+						}	// end else
 		
-					// request.postContact( '/controller/contact.php', $scope.input )
-					// .then( function( response ) {
-					// 	if( request.check( response ) ) {
-					// 	}	// end if
-					// 	else {
-					// 	}
-					// 	$scope.reset();
-					// }, function( error ) {} );
-
-				});
-			}); //recaptcha watcher
-
+						$scope.reset();
+					}, function( error ) {} );	
+				} );
+			} );
 		};
 
 		$scope.reset = () => {
