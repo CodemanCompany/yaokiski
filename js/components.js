@@ -1,6 +1,5 @@
 app.component( 'contact', {
 	"controller":	[ '$scope', 'request', 'validation', ( $scope, request, validation ) => {
-		$scope.loading = false;
 		$scope.validation = validation;
 
 		$scope.action = () => {
@@ -25,7 +24,7 @@ app.component( 'contact', {
 		
 					$scope.input[ 'g-recaptcha-response' ] = token;
 					request.post( '/controller/contact.php', $scope.input, false )
-					.then( function( response ) {
+					.then( ( response ) => {
 						Swal.close();
 		
 						if( request.check( response ) ) {
@@ -46,13 +45,12 @@ app.component( 'contact', {
 						}	// end else
 		
 						$scope.reset();
-					}, function( error ) {} );	
+					}, ( error ) => {} );	
 				} );
 			} );
 		};
 
 		$scope.reset = () => {
-			$scope.loading = false;
 			$scope.form.$setPristine();
 			$scope.input = {};
 		};
@@ -82,12 +80,12 @@ app.component( 'contact', {
 			$scope.loading = true;
 
 			// request.post( '', $scope.input )
-			// .then( function( response ) {
+			// .then( ( response ) => {
 			// 	if( request.check( response ) ) {
 					
 			// 	}	// end if
 			// 	$scope.reset();
-			// }, function( error ) {} );
+			// }, ( error ) => {} );
 		};
 
 		$scope.reset = () => {
