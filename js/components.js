@@ -1,5 +1,6 @@
 app.component( 'contact', {
 	"controller":	[ '$scope', 'request', 'validation', ( $scope, request, validation ) => {
+		$scope.input = {};
 		$scope.validation = validation;
 
 		$scope.action = () => {
@@ -45,7 +46,7 @@ app.component( 'contact', {
 						}	// end else
 		
 						$scope.reset();
-					}, ( error ) => {} );	
+					}, ( error ) => {} );
 				} );
 			} );
 		};
@@ -61,7 +62,6 @@ app.component( 'contact', {
 .component( 'login', {
 	"controller":	[ '$scope', 'request', 'storage', 'validation', ( $scope, request, storage, validation ) => {
 		$scope.input = {};
-		$scope.loading = false;
 		$scope.validation = validation;
 
 		// console.log( storage.getData( 'name' ) );
@@ -73,23 +73,38 @@ app.component( 'contact', {
 				return;
 			}	// end if
 
-			$scope.reset();
-
 			// if( input.remember  )
 
-			$scope.loading = true;
+			Swal.fire( {
+				"allowOutsideClick": false,
+				"text": "Espere un momento por favor.",
+				"title": "Verificando datos de acceso ...",
+			} )
+			Swal.showLoading();
 
-			// request.post( '', $scope.input )
-			// .then( ( response ) => {
-			// 	if( request.check( response ) ) {
-					
-			// 	}	// end if
-			// 	$scope.reset();
-			// }, ( error ) => {} );
+			$scope.input[ 'g-recaptcha-response' ] = token;
+			request.post( '/', $scope.input, false )
+			.then( ( response ) => {
+				Swal.close();
+
+				if( request.check( response ) ) {
+					// request.setToken( request.getData().auth.access_token );
+					// location.href = '/';
+				}	// end if
+				else {
+					Swal.fire( {
+						"confirmButtonText": "Aceptar",
+						"text": "Datos de acceso incorrectos, por favor verifica la información.",
+						"title": "Atención",
+						"type": "error",
+					} );
+				}	// end else
+
+				$scope.reset();
+			}, ( error ) => {} );
 		};
 
 		$scope.reset = () => {
-			$scope.loading = false;
 			$scope.form.$setPristine();
 			$scope.input = {};
 		};
