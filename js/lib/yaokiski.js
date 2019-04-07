@@ -339,9 +339,9 @@ const yaokiski = angular.module( 'yaokiski', [] )
 			if( ! data )
 				throw new Error( 'Error obteniendo los datos.' );
 
-			let store = JSON.parse( data );
-			let expire = new Date( store.time ).getTime() + ( this.expire );
-			let now = new Date().getTime();
+			var store = JSON.parse( data );
+			var expire = new Date( store.time ).getTime() + ( this.expire );
+			var now = new Date().getTime();
 		}	// end try
 
 		catch( error ) {
@@ -365,7 +365,7 @@ const yaokiski = angular.module( 'yaokiski', [] )
 			if( ! ( object && typeof object === 'string' && data && typeof data === 'object' ) )
 				throw new Error( 'Incorrect parameters.' );
 
-			let store = { time: new Date(), "data": data };
+			var store = { time: new Date(), "data": data };
 			console.debug( 'Save Object ' + object );
 		}	// end try
 
