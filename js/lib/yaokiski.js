@@ -5,7 +5,7 @@
 // ╚██████╗╚██████╔╝██████╔╝███████╗██║ ╚═╝ ██║██║  ██║██║ ╚████║
 //  ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝
 // @author Codeman Team
-// @version 0.17
+// @version 0.18
 
 const yaokiski = angular.module( 'yaokiski', [] )
 
