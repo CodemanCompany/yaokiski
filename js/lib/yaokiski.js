@@ -5,7 +5,7 @@
 // ╚██████╗╚██████╔╝██████╔╝███████╗██║ ╚═╝ ██║██║  ██║██║ ╚████║
 //  ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝
 // @author Codeman Team
-// @version 0.18
+// @version 0.19
 
 const yaokiski = angular.module( 'yaokiski', [] )
 
@@ -156,6 +156,31 @@ const yaokiski = angular.module( 'yaokiski', [] )
 			return false;
 
 		return true;
+	};
+
+	request.lang = {
+		"sEmptyTable": "Ningún dato disponible en esta tabla",
+		"sInfo":  "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+		"sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+		"sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+		"sInfoPostFix":  "",
+		"sInfoThousands": ",",
+		"sLengthMenu": "Mostrar _MENU_ registros",
+		"sLoadingRecords": "Espere un momento por favor.",
+		"sProcessing": "Procesando...",
+		"sSearch": "Buscar:",
+		"sUrl": "",
+		"sZeroRecords": "No se encontraron resultados",
+		"oPaginate": {
+			"sFirst": "Primero",
+			"sLast": "Último",
+			"sNext": "Siguiente",
+			"sPrevious": "Anterior",
+		},
+		"oAria": {
+			"sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+			"sSortDescending": ": Activar para ordenar la columna de manera descendente",
+		},
 	};
 
 	request.delete = function( url, data ) {
@@ -427,7 +452,7 @@ const yaokiski = angular.module( 'yaokiski', [] )
 			"tel": /^\+?(\d{1,3})?[- .]?\(?(?:\d{2,3})\)?[- .]?\d{3,4}[- .]?\d{3,4}$/,
 		},
 		"login":	{
-			"password": /.{8,50}/,
+			"password": /.{8,40}/,
 		}
 	};
 
