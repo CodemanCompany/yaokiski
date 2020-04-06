@@ -33,7 +33,7 @@ app.component( 'contact', {
 								"confirmButtonText": "Aceptar",
 								"text": "Operación realizada con éxito.",
 								"title": "Éxito",
-								"type": "success",
+								"icon": "success",
 							} );
 						}	// end if
 						else {
@@ -41,7 +41,7 @@ app.component( 'contact', {
 								"confirmButtonText": "Aceptar",
 								"text": "Por el momento no se puede realizar la operación, intente de nueva más tarde.",
 								"title": "Atención",
-								"type": "error",
+								"icon": "error",
 							} );
 						}	// end else
 		
@@ -95,7 +95,7 @@ app.component( 'contact', {
 						"confirmButtonText": "Aceptar",
 						"text": "Datos de acceso incorrectos, por favor verifica la información.",
 						"title": "Atención",
-						"type": "error",
+						"icon": "error",
 					} );
 				}	// end else
 
