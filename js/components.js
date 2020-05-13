@@ -31,17 +31,17 @@ app.component( 'contact', {
 						if( request.check( response ) ) {
 							Swal.fire( {
 								"confirmButtonText": "Aceptar",
+								"icon": "success",
 								"text": "Operación realizada con éxito.",
 								"title": "Éxito",
-								"icon": "success",
 							} );
 						}	// end if
 						else {
 							Swal.fire( {
 								"confirmButtonText": "Aceptar",
+								"icon": "error",
 								"text": "Por el momento no se puede realizar la operación, intente de nueva más tarde.",
 								"title": "Atención",
-								"icon": "error",
 							} );
 						}	// end else
 		
@@ -93,9 +93,9 @@ app.component( 'contact', {
 				else {
 					Swal.fire( {
 						"confirmButtonText": "Aceptar",
+						"icon": "error",
 						"text": "Datos de acceso incorrectos, por favor verifica la información.",
 						"title": "Atención",
-						"icon": "error",
 					} );
 				}	// end else
 
