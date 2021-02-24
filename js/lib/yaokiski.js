@@ -260,7 +260,7 @@ const yaokiski = angular.module( 'yaokiski', [] )
 			else
 				object = $http( {
 					"data": data,
-					"headers": { "Content-Type": undefined },
+					"headers": this.getHeaders( false ),
 					"method": "POST",
 					"transformRequest": ( data, headersGetter ) => {
 						return this.transform( data );
