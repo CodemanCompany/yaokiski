@@ -5,7 +5,7 @@
 // ╚██████╗╚██████╔╝██████╔╝███████╗██║ ╚═╝ ██║██║  ██║██║ ╚████║
 //  ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝
 // @author Codeman Team
-// @version 0.22
+// @version 0.23
 
 const yaokiski = angular.module( 'yaokiski', [] )
 
@@ -183,6 +183,21 @@ const yaokiski = angular.module( 'yaokiski', [] )
 		},
 	};
 
+	request.transform = ( data ) => {
+		let formData = new FormData();
+		angular.forEach( data, function( value, key ){
+			if( Array.isArray( value ) ) {
+				value.forEach( ( element, index, array ) => {
+					formData.append( key + '[]', element );	
+				} );
+			}	// end if
+			else
+				formData.append( key, value );
+		} );
+
+		return formData;
+	};	// end transform
+
 	request.delete = function( url, data ) {
 		let object = null;
 
@@ -248,13 +263,7 @@ const yaokiski = angular.module( 'yaokiski', [] )
 					"headers": { "Content-Type": undefined },
 					"method": "POST",
 					"transformRequest": ( data, headersGetter ) => {
-						let formData = new FormData();
-
-						angular.forEach( data, ( value, key ) => {
-							formData.append( key, value );
-						} );
-
-						return formData;
+						return this.transform( data );
 					},
 					"transformResponse": ( data, headersGetter, status ) => JSON.parse( data ),
 					"url": url,
@@ -290,24 +299,6 @@ const yaokiski = angular.module( 'yaokiski', [] )
 
 		return object;
 	};
-
-	request.transform = ( data ) => {
-		const formData = new URLSearchParams();
-		angular.forEach( data, function( value, key ){
-			if( typeof( value ) === 'object' ) {
-				formData.set( key, JSON.stringify( value ) );
-			}	// end if
-			else if( Array.isArray( value ) ) {
-				value.forEach( ( element, index, array ) => {
-					formData.set( key + '[]', element );	
-				} );
-			}	// end if
-			else
-				formData.set( key, value );
-		} );
-
-		return formData;
-	};	// end transform
 
 	request.url = url;
 
